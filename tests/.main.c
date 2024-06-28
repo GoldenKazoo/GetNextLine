@@ -6,7 +6,7 @@
 /*   By: zchagar <zchagar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 14:33:26 by zchagar           #+#    #+#             */
-/*   Updated: 2024/06/28 16:57:06 by zchagar          ###   ########.fr       */
+/*   Updated: 2024/06/28 18:44:24 by zchagar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	main()
 	char 	*test;
 
 	i = 0;
-	fd1 = open("emiya.txt", O_RDONLY);
-	fd2 = open("emiya.txt", O_RDONLY);
-	while (1)
+	fd1 = open("emiy.txt", O_RDONLY);
+	fd2 = open("lepetitprince.txt", O_RDONLY);
+	while (i < 10)
 
 	{
 		if(i % 2 == 0)
@@ -33,8 +33,8 @@ int	main()
 	printf("%s", test);
 	free(test);
 	i++;
-		if (!test)
-			break ;
+		// if (!test)
+		// 	break ;
 	}
 	// printf("%s", test);
 	// test = get_next_line(fd);
