@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zchagar <zchagar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 10:39:36 by zchagar           #+#    #+#             */
-/*   Updated: 2024/06/28 16:32:45 by zchagar          ###   ########.fr       */
+/*   Updated: 2024/06/28 16:59:41 by zchagar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *string)
 {
@@ -43,7 +43,7 @@ char	*ft_extract_line(char *stash)
 char	*ft_crop_stash(char *stash)
 {
 	int			i;
-	static char	*new_stash;
+	char	*new_stash;
 
 	i = 0;
 	while (stash[i] != '\n' && stash[i] != '\0')
@@ -73,31 +73,31 @@ char	*ft_free_stash(char *stash, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char		*stash = NULL;
+	static char		*stash[1024];
 	char			*line;
 	char			*buffer;
 	int				read_value;
 
 	read_value = BUFFER_SIZE;
 	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	while ((ft_strchr(stash, '\n') == NULL) && (read_value == BUFFER_SIZE))
+	while ((ft_strchr(stash[fd], '\n') == NULL) && (read_value == BUFFER_SIZE))
 	{
 		read_value = read(fd, buffer, BUFFER_SIZE);
 		if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0 || read_value < 0)
 		{
-			stash = ft_free_stash(stash, buffer);
+			stash[fd] = ft_free_stash(stash[fd], buffer);
 			return (NULL);
 		}
-		if (read_value == 0 && ft_strlen(stash) == 0)
+		if (read_value == 0 && ft_strlen(stash[fd]) == 0)
 		{
-			stash = ft_free_stash(stash, buffer);
+			stash[fd] = ft_free_stash(stash[fd], buffer);
 			return (NULL);
 		}
 		buffer[read_value] = '\0';
-		stash = ft_strjoin(stash, buffer);
+		stash[fd] = ft_strjoin(stash[fd], buffer);
 	}
-	line = ft_extract_line(stash);
-	stash = ft_crop_stash(stash);
+	line = ft_extract_line(stash[fd]);
+	stash[fd] = ft_crop_stash(stash[fd]);
 	free(buffer);
 	return (line);
 }
